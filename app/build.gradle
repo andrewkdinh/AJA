@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "org.mesibo.messenger"
-        minSdkVersion project.Mesibo_minSdkVersion
+        minSdkVersion 21
         targetSdkVersion project.Mesibo_targetSdkVersion
         versionCode project.PUBLISH_VERSION_CODE
         versionName project.PUBLISH_VERSION
