@@ -8,11 +8,8 @@ buildscript {
     }
 
     dependencies {
-<<<<<<< HEAD
-        classpath 'com.android.tools.build:gradle:3.4.0'
-=======
+
         classpath 'com.android.tools.build:gradle:3.4.2'
->>>>>>> parent of 57e8316... Merge branch 'master' of https://github.com/origamiman72/messenger-app-android-sms-filter
         classpath 'com.google.gms:google-services:4.2.0'
 
         // NOTE: Do not place your application dependencies here; they belong
