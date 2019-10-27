@@ -1,77 +1,56 @@
-## Mesibo Messenger for Android
-Mesibo Messenger is an open-source app with real-time messaging, voice and video call features. This repo contains the source code for Mesibo Messenger App for Android. The GitHub repository for iOS version is [here](https://github.com/mesibo/messenger-app-ios).
+# AJA Messenger
 
-**Note**: We are working on a new version which can be found [here](https://github.com/mesibo/messenger-app-android-beta). This beta allows complete customization of Messaging, audio and video calling UI. 
+AJA is an open-source messaging app for communication with anybody, anywhere. It provides spam filtering, search of all messages (including PDFs and images), and high quality voice and video calling. 
 
-### Features
-- One-on-one messaging and Group chat
-- High quality voice and video calling
-- Rich messaging (text, picture, video, audio, other files)
-- Encryption 
+This app is a fork of [Mesibo Messenger for Android](https://github.com/mesibo/messenger-app-android), created by Andrew Dinh, Abhik Ahuja, and Jake Johnson at [Cal Hacks](https://calhacks.io) 2019. 
+
+## Features
+
+- Group chats
+- Rich messages (picture, video, audio, & other files)
 - Location sharing
+- Works with SMS as well as any app using the Mesibo backend, including [Mesibo Messenger for iOS](https://github.com/mesibo/messenger-app-ios)
 - Message status and typing indicators
-- Online status (presence) and real-time profile update
-- Push notifications
+- Advanced search capabilities
+- Spam filtering
 
-Latest versions are also available through Google Play Store and Apple App Store :
+## Contributing
 
-<a href="https://play.google.com/store/apps/details?id=com.mesibo.mesiboapplication"><img
-  alt="Get it on Google Play" height="80"
-  src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" /></a> 
-  <a href="https://itunes.apple.com/us/app/mesibo-realtime-messaging-voice-video/id1222921751">
-  <img alt="Get it on Apple App Store" height="80"
-  src="https://media.mesibo.com/files/mesibo/appstore.png" /></a>
+### Clone the Repository
 
-## Downloading the Source Code
+If you have git installed, this is a recommended approach as you can quickly sync and stay up to date with the latest version. To do so, run the following commands:
 
-### Clone the Repository (Recommended)
-If you have git installed, this is a recommended approach as you can quickly sync and stay up to date with the latest version. This is also a preferred way of downloading the code if you decide to contribute to the project. 
+```bash
+mkdir AJA && cd AJA
+git clone https://github.com/origamiman72/messenger-app-android-sms-filter.git
+```
 
-To download, open a terminal and issue following commands:
-
-    $ mkdir Messenger
-    $ cd Messenger
-    $ git clone https://github.com/mesibo/messenger-app-android.git
-
-### Download the code as a zip file
-You can also download the complete Android Messenger source code as a [zip file](https://github.com/mesibo/messenger-app-android/archive/master.zip). Although simple, the downsize of this approach is that you will have to download the complete source code everytime it is updated on the repository. 
-
-### Stay Up-to-date
-Whatever approach you take to download the code, it is important to stay up-to-date with the latest changes, new features, fixes etc. Ensure to **Star(*)** the project on GitHub to get notified whenever the source code is updated. 
-
-## Build and Run
-
-Before we dive into building and running a fully featured Messenger for Android, ensure that you've read the following.
-
- - Latest Android Studio Installed
- - An Android Device
+### Build and Run
 
 Building the code is as simple as:
 
  1. Launch Android Studio
  2. Open the project from the folder where you have downloaded the code using menu `File -> Open`
  3. Build using menu `Build -> Rebuild Project`
- 4. It may take a while to build the project for the first time. 
- 5. Once the build is over, run on the device using menu `Run -> Run (app)`
- 6. That's it, you should see the welcome screen like below.
+ 5. Once the build is over, run on the device using menu `Run -> Run (app)
 
-Login using your phone number. You can even start using the app you've just built to communicate with your family and friends.
+Login using your phone number, and you’re ready to go.
 
-## Key SDKs user in this project
+## SDKs and Backend
 
-These apps use following [Mesibo SDKs](https://mesibo.com).
+AJA uses many [Mesibo](https://mesibo.com) projects:
 
 - Mesibo SDK
 - Mesibo Messaging UI Module
 - Mesibo Call UI Module
+- [Mesibo backend](https://github.com/mesibo/messenger-app-backend)
 
-These apps also use following third party libraries/services.
+AJA also uses the following third party libraries/services:
 
-- [Facebook AccountKit](https://www.accountkit.com/) for the Phone Verification
-- [Google Maps](https://developers.google.com/maps/documentation/) and [Google Places](https://cloud.google.com/maps-platform/places/) SDKs for Geolocation integration 
-
-# Backend
-The backend code is here https://github.com/mesibo/messenger-app-backend
+- [Facebook AccountKit](https://www.accountkit.com/) for phone verification
+- [Google Maps](https://developers.google.com/maps/documentation/) and [Google Places](https://cloud.google.com/maps-platform/places/) SDKs for geolocation integration
+- [Firebase](https://firebase.google.com/) for push notifications
+- [CockroachDB](https://www.cockroachlabs.com/product/) for distributed SQL
 
 ## Documentation & Tutorials
 
