@@ -85,6 +85,7 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         MediaPicker.setToolbarColor(opt.mToolbarColor);
 
         try{
+            NaiveInitializer.isInstanceGenerated = false;
             NaiveInitializer.reader = new BufferedReader(new InputStreamReader(mContext.getAssets().open("SMSSpamCollection.txt")));
         }catch(Exception e){
             e.printStackTrace();

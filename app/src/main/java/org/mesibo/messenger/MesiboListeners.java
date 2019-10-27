@@ -168,11 +168,11 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
         if(Mesibo.isReading(params))
             return true;
 
-//        String message = "";
         System.out.println("len " + data.length + " " + message);
         try {
-            boolean res = parse(mLoginContext, message);
-            if (res) Toast.makeText(mLoginContext,"The following message is spam", Toast.LENGTH_SHORT).show();
+            System.out.println("here");
+            boolean res = NaiveInitializer.parse(MainApplication.getAppContext(), message);
+            System.out.println("here2");
         } catch (Exception e) {
             return false;
         }

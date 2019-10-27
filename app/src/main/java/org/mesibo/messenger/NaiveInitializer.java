@@ -2,6 +2,7 @@ package org.mesibo.messenger;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +30,9 @@ import static org.mesibo.messenger.Label.HAM;
 
 public class NaiveInitializer {
 	public static BufferedReader reader;
+	static Instance[] trainingData;
+	public static boolean isInstanceGenerated;
+	private static String[] ls;
 	/**
 	 * Creates a fresh instance of the classifier.
 	 * 
@@ -43,14 +47,17 @@ public class NaiveInitializer {
 		// Output classifications on test data
 //		File trainingFile = new File("assets/SMSSpamCollection.txt");
 //		BufferedReader reader = new BufferedReader(new InputStreamReader(mContext.getAssets().open("SMSSpamCollection.txt")));
-		String[] ls = lines(reader);
+		if(!isInstanceGenerated) ls = lines(reader);
 		System.out.println("__parse__");
 //		for(String a : ls){
 //			System.out.println(a);
 //		}
-
-		Instance[] trainingData = createInstances(ls, false);
+		System.out.println("instance " + isInstanceGenerated);
+		if(!isInstanceGenerated) trainingData = createInstances(ls, false);
+		isInstanceGenerated = true;
+		System.out.println("instance finished");
 		Instance[] testData= createInstancesLine(test, true);
+		System.out.println("testdata finished");
 
 		NaiveBayesClassifier nbc = getNewClassifier();
 		nbc.train(trainingData, vocabularySize(trainingData, testData));
@@ -72,6 +79,7 @@ public class NaiveInitializer {
 		System.out.println(String.format("Test accuracy: %.2f", (correct / testData.length)));
 		
 //		nbc.showImpact();
+		Toast.makeText(mContext,"The following message is " + prediction.toString(), Toast.LENGTH_SHORT).show();
 		return prediction != HAM;
 	}
 
@@ -117,7 +125,6 @@ public class NaiveInitializer {
 	 */
 	private static Instance[] createInstances(String[] ls, boolean isTest) throws IOException {
 //		String[] ls = lines(reader);
-		System.out.println(ls[0]);
 		Instance[] is = new Instance[ls.length];
 		for (int i = 0; i < ls.length; i++) {
 			String[] ws = cleanse(ls[i]).split("\\s");
@@ -134,7 +141,6 @@ public class NaiveInitializer {
 		is[0] = new Instance();
 		is[0].words = drop(ws, 1);
 		is[0].label = isTest ? Label.valueOf("UNKNOWN") : Label.valueOf(ws[0].toUpperCase());
-		System.out.println(is[0].words.toString());
 		return is;
 	}
 
