@@ -50,6 +50,7 @@ import android.os.Handler;
 
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.mesibo.api.Mesibo;
@@ -590,7 +591,6 @@ public class SampleAPI  {
             return AppConfig.getConfig().phone;
         }
 
-
         Mesibo.UserProfile u = Mesibo.getSelfProfile();
 
         //MUST not happen
@@ -651,7 +651,7 @@ public class SampleAPI  {
 
     public static boolean startMesibo(boolean resetContacts) {
 
-        MesiboRegistrationIntentService.startRegistration(mContext, FCM_SENDER_ID, MesiboListeners.getInstance());
+//        MesiboRegistrationIntentService.startRegistration(mContext, FCM_SENDER_ID, MesiboListeners.getInstance());
 
         // set path for storing DB and messaging files
         Mesibo.setPath(Environment.getExternalStorageDirectory().getAbsolutePath());
@@ -749,6 +749,7 @@ public class SampleAPI  {
         b.putString("op", "login");
         b.putString("appid", mContext.getPackageName());
         b.putString("phone", phoneNumber);
+        Log.d("tag", phoneNumber);
         if(!TextUtils.isEmpty(verificationCode))
             b.putString("code", verificationCode);
 

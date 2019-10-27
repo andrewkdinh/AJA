@@ -65,7 +65,6 @@ public class StartUpActivity extends AppCompatActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //i.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         i.putExtra(StartUpActivity.STARTINBACKGROUND, startInBackground);
-
         context.startActivity(i);
     }
 
@@ -96,24 +95,24 @@ public class StartUpActivity extends AppCompatActivity {
 
     void startNextActivity() {
 
-        if(TextUtils.isEmpty(SampleAPI.getToken())) {
-            MesiboUiHelperConfig.mDefaultCountry = ContactUtils.getCountryCode();
-            MesiboUiHelperConfig.mPhoneVerificationBottomText = "Note, Mesibo may call instead of sending an SMS if SMS delivery to your phone fails.";
-            if(null == MesiboUiHelperConfig.mDefaultCountry) {
-                MesiboUiHelperConfig.mDefaultCountry = "91";
-            }
+        // if(TextUtils.isEmpty(SampleAPI.getToken())) {
+        //     MesiboUiHelperConfig.mDefaultCountry = ContactUtils.getCountryCode();
+        //     MesiboUiHelperConfig.mPhoneVerificationBottomText = "Note, Mesibo may call instead of sending an SMS if SMS delivery to your phone fails.";
+        //     if(null == MesiboUiHelperConfig.mDefaultCountry) {
+        //         MesiboUiHelperConfig.mDefaultCountry = "91";
+        //     }
 
-            if(getIntent().getBooleanExtra(SKIPTOUR, false)) {
-                UIManager.launchLogin(this, MesiboListeners.getInstance());
-            } else {
-                UIManager.launchWelcomeactivity(this, true, MesiboListeners.getInstance(), MesiboListeners.getInstance());
-            }
+        //     if(getIntent().getBooleanExtra(SKIPTOUR, false)) {
+        //         UIManager.launchLogin(this, MesiboListeners.getInstance());
+        //     } else {
+        //         UIManager.launchWelcomeactivity(this, true, MesiboListeners.getInstance(), MesiboListeners.getInstance());
+        //     }
 
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        //     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
-        } else {
+        // } else {
             UIManager.launchMesibo(this, 0, mRunInBackground, true);
-        }
+        // }
 
         finish();
     }

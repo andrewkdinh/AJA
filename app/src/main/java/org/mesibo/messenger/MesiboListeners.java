@@ -277,6 +277,9 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
                 sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, AppConfig.getConfig().invite.subject);
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, AppConfig.getConfig().invite.text);
                 context.startActivity(Intent.createChooser(sharingIntent, AppConfig.getConfig().invite.title));
+            } else if(item == R.id.mesibo_spam){
+                Intent intent = new Intent(context, SpamMessages.class);
+                context.startActivity(intent);
             }
         } 
 	else { // from messaging box
@@ -534,8 +537,6 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
         return true;
     }
 
-
-
     @Override
     public void Mesibo_onGCMToken(String token) {
         SampleAPI.setGCMToken(token);
@@ -545,6 +546,5 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
     public void Mesibo_onGCMMessage(/*Bundle data,*/ boolean inService) {
         SampleAPI.onGCMMessage(inService);
     }
-
 
 }
