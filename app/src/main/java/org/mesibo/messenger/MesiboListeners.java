@@ -166,6 +166,7 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
         String message = "";
         try {
             message = new String(data, "UTF-8");
+            System.out.println(message);
         } catch (Exception e) {
             return false;
         }
