@@ -1,15 +1,24 @@
 package org.mesibo.messenger;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Array;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import static org.mesibo.messenger.Label.HAM;
 
 
 /**
@@ -19,6 +28,7 @@ import java.util.Set;
  */
 
 public class NaiveInitializer {
+	public static BufferedReader reader;
 	/**
 	 * Creates a fresh instance of the classifier.
 	 * 
@@ -29,34 +39,59 @@ public class NaiveInitializer {
 		return nbc;
 	}
 
-	public static void parse(String test) throws IOException {
-
+	public static boolean parse(Context mContext, String test) throws IOException {
 		// Output classifications on test data
-		File trainingFile = new File("./SMSSpamCollection.train");
-		File testFile = new File(test);
+//		File trainingFile = new File("assets/SMSSpamCollection.txt");
+//		BufferedReader reader = new BufferedReader(new InputStreamReader(mContext.getAssets().open("SMSSpamCollection.txt")));
+		String[] ls = lines(reader);
+		System.out.println("__parse__");
+//		for(String a : ls){
+//			System.out.println(a);
+//		}
 
-		Instance[] trainingData = createInstances(trainingFile, false);
-		Instance[] testData= createInstances(testFile, true);
+		Instance[] trainingData = createInstances(ls, false);
+		Instance[] testData= createInstancesLine(test, true);
 
 		NaiveBayesClassifier nbc = getNewClassifier();
 		nbc.train(trainingData, vocabularySize(trainingData, testData));
 
-        System.out.println("Probability of HAM: " + nbc.p_l(Label.HAM));
+        System.out.println("Probability of HAM: " + nbc.p_l(HAM));
         System.out.println("Probability of SPAM: " + nbc.p_l(Label.SPAM));
         
-        System.out.println("Probability of 'great' given HAM: " + nbc.p_w_given_l("great", Label.HAM));
+        System.out.println("Probability of 'great' given HAM: " + nbc.p_w_given_l("great", HAM));
         System.out.println("Probability of 'friday' given SPAM: " + nbc.p_w_given_l("friday", Label.SPAM));
         
 		double correct = 0.0;
 		System.out.println("\nPrediction in the test data set");
+		Label prediction = null;
 		for (Instance inst : testData) {
-			Label prediction = nbc.classify(inst.words);
+			prediction = nbc.classify(inst.words);
 			System.out.println(String.format("Pred based on classification: %s    Real: %s", prediction, inst.label));
 			if(prediction == inst.label) ++correct;
 		}
 		System.out.println(String.format("Test accuracy: %.2f", (correct / testData.length)));
 		
-		nbc.showImpact();
+//		nbc.showImpact();
+		return prediction != HAM;
+	}
+
+	public static List<String> readLine(Context mContext, String path) {
+		List<String> mLines = new ArrayList<>();
+
+		AssetManager am = mContext.getAssets();
+
+		try {
+			InputStream is = am.open(path);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line;
+
+			while ((line = reader.readLine()) != null)
+				mLines.add(line);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return mLines;
 	}
 	
 	private static int vocabularySize(Instance[]... data) {
@@ -80,8 +115,9 @@ public class NaiveInitializer {
 	 * @return
 	 * @throws IOException
 	 */
-	private static Instance[] createInstances(File f, boolean isTest) throws IOException {
-		String[] ls = lines(f);
+	private static Instance[] createInstances(String[] ls, boolean isTest) throws IOException {
+//		String[] ls = lines(reader);
+		System.out.println(ls[0]);
 		Instance[] is = new Instance[ls.length];
 		for (int i = 0; i < ls.length; i++) {
 			String[] ws = cleanse(ls[i]).split("\\s");
@@ -89,6 +125,16 @@ public class NaiveInitializer {
 			is[i].words = drop(ws, 1);
 			is[i].label = isTest ? Label.valueOf("UNKNOWN") : Label.valueOf(ws[0].toUpperCase());
 		}
+		return is;
+	}
+
+	private static Instance[] createInstancesLine(String line, boolean isTest) throws IOException {
+		Instance[] is = new Instance[1];
+		String[] ws = cleanse(line).split("\\s");
+		is[0] = new Instance();
+		is[0].words = drop(ws, 1);
+		is[0].label = isTest ? Label.valueOf("UNKNOWN") : Label.valueOf(ws[0].toUpperCase());
+		System.out.println(is[0].words.toString());
 		return is;
 	}
 
@@ -107,15 +153,25 @@ public class NaiveInitializer {
 		return s.toLowerCase();
 	}
 
-	public static String[] lines(File f) throws IOException {
+	private static String[] lines(File f) throws IOException {
 		FileReader fr = new FileReader(f);
 		String[] l = lines(fr);
 		fr.close();
 		return l;
 	}
-	
-	public static String[] lines(Reader r) throws IOException {
+
+	private static String[] lines(Reader r) throws IOException {
 		BufferedReader br = new BufferedReader(r);
+		String s;
+		List<String> data = new ArrayList<String>();
+		while ((s = br.readLine()) != null && !s.isEmpty()) {
+			data.add(s);
+		}
+		br.close();
+		return data.toArray(new String[data.size()]);
+	}
+
+	private static String[] lines(BufferedReader br) throws IOException {
 		String s;
 		List<String> data = new ArrayList<String>();
 		while ((s = br.readLine()) != null && !s.isEmpty()) {
@@ -126,7 +182,7 @@ public class NaiveInitializer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T[] drop(T[] xs, int i) {
+	private static <T> T[] drop(T[] xs, int i) {
 		T[] ys = (T[]) Array.newInstance(xs[0].getClass(), xs.length - i);
 		System.arraycopy(xs, i, ys, 0, xs.length - 1);
 		return ys;		

@@ -42,12 +42,20 @@ package org.mesibo.messenger;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.mesibo.api.Mesibo;
 import com.mesibo.mediapicker.MediaPicker;
 import com.mesibo.calls.MesiboCall;
 import com.mesibo.messaging.MesiboUI;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mesibo on 29/09/17.
@@ -76,8 +84,40 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         opt.emptyUserListMessage = "Ask your family and friends to download so that you can try out Mesibo functionalities";
         MediaPicker.setToolbarColor(opt.mToolbarColor);
 
-        System.out.println("INITIALIZED");
+        try{
+            NaiveInitializer.reader = new BufferedReader(new InputStreamReader(mContext.getAssets().open("SMSSpamCollection.txt")));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
+    private static String[] lines(BufferedReader br) throws IOException {
+        String s;
+        List<String> data = new ArrayList<String>();
+        while ((s = br.readLine()) != null && !s.isEmpty()) {
+            data.add(s);
+        }
+        br.close();
+        return data.toArray(new String[data.size()]);
+    }
+
+    public static List<String> readLine(Context mContext, String path) {
+        List<String> mLines = new ArrayList<>();
+
+        AssetManager am = mContext.getAssets();
+
+        try {
+            InputStream is = am.open(path);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+
+            while ((line = reader.readLine()) != null)
+                mLines.add(line);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return mLines;
     }
 
     public static String getRestartIntent() {

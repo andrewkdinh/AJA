@@ -53,6 +53,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mesibo.calls.MesiboVideoCallFragment;
@@ -68,6 +69,7 @@ import com.mesibo.uihelper.IProductTourListener;
 import com.mesibo.uihelper.ILoginResultsInterface;
 
 import java.util.ArrayList;
+import java.util.Base64;
 
 import static org.mesibo.messenger.NaiveInitializer.parse;
 
@@ -161,14 +163,16 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
 
     @Override
     public boolean Mesibo_onMessage(Mesibo.MessageParams params, byte[] data) {
+        String message = new String(data);
         SampleAPI.autoAddContact(params);
         if(Mesibo.isReading(params))
             return true;
 
-        String message = "";
+//        String message = "";
+        System.out.println("len " + data.length + " " + message);
         try {
-            message = new String(data, "UTF-8");
-            parse(message);
+            boolean res = parse(mLoginContext, message);
+            if (res) Toast.makeText(mLoginContext,"The following message is spam", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             return false;
         }
@@ -337,6 +341,7 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
         String message = "";
         try {
             message = new String(data, "UTF-8");
+            System.out.println("TEXT: " + message);
         } catch (Exception e) {
             return false;
         }
