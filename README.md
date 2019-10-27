@@ -2,6 +2,8 @@
 
 AJA is an open-source messaging app for communication with anybody, anywhere. It provides spam filtering, search of all messages (including PDFs and images), and high quality voice and video calling. 
 
+Spam filtering and search filtering is achieved through a Naive Bayes linear classifier implementation trained on ham/spam models for text processing with smoothing for zero probability prevention. Using Naive on an SMS database, we are able to tokenize expressions, defining certain characteristics of the ML model. Decision rules are determined by maximum likelihood of posterior possibilities (Bayes' theorem).
+
 This app is a fork of [Mesibo Messenger for Android](https://github.com/mesibo/messenger-app-android), created by Andrew Dinh, Abhik Ahuja, and Jake Johnson at [Cal Hacks](https://calhacks.io) 2019. 
 
 ## Features
@@ -50,7 +52,6 @@ AJA also uses the following third party libraries/services:
 - [Facebook AccountKit](https://www.accountkit.com/) for phone verification
 - [Google Maps](https://developers.google.com/maps/documentation/) and [Google Places](https://cloud.google.com/maps-platform/places/) SDKs for geolocation integration
 - [Firebase](https://firebase.google.com/) for push notifications
-- [CockroachDB](https://www.cockroachlabs.com/product/) for distributed SQL
 
 ## Documentation & Tutorials
 
