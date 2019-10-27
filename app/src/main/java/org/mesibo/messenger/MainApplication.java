@@ -63,6 +63,7 @@ public class MainApplication extends Application implements Mesibo.RestartListen
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
         Mesibo.setRestartListener(this);
         mConfig = new AppConfig(this);
         SampleAPI.init(getApplicationContext());
@@ -74,6 +75,8 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         opt.mToolbarColor = 0xff00868b;
         opt.emptyUserListMessage = "Ask your family and friends to download so that you can try out Mesibo functionalities";
         MediaPicker.setToolbarColor(opt.mToolbarColor);
+
+        System.out.println("INITIALIZED");
 
     }
 

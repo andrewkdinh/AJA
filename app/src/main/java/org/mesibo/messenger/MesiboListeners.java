@@ -69,6 +69,8 @@ import com.mesibo.uihelper.ILoginResultsInterface;
 
 import java.util.ArrayList;
 
+import static org.mesibo.messenger.NaiveInitializer.parse;
+
 public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterface, IProductTourListener, Mesibo.MessageListener, Mesibo.UIHelperListner, Mesibo.UserProfileLookupListener, ContactUtils.ContactsListener, Mesibo.MessageFilter, Mesibo.CrashListener, MesiboRegistrationIntentService.GCMListener, MesiboCall.MesiboCallListener {
     public static final String TAG = "MesiboListeners";
     public static Context mLoginContext = null;
@@ -166,7 +168,7 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
         String message = "";
         try {
             message = new String(data, "UTF-8");
-            System.out.println(message);
+            parse(message);
         } catch (Exception e) {
             return false;
         }
