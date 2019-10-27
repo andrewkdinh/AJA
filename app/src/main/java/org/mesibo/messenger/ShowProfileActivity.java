@@ -41,7 +41,6 @@
 package org.mesibo.messenger;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -81,7 +80,6 @@ public class ShowProfileActivity extends AppCompatActivity implements ShowProfil
         mToolbar = (Toolbar) findViewById(R.id.up_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         Bundle args = getIntent().getExtras();
         if (null == args) {

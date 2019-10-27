@@ -75,6 +75,8 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         opt.emptyUserListMessage = "Ask your family and friends to download so that you can try out Mesibo functionalities";
         MediaPicker.setToolbarColor(opt.mToolbarColor);
 
+
+
     }
 
     public static String getRestartIntent() {
@@ -90,8 +92,6 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         Log.d(TAG, "OnRestart");
         StartUpActivity.newInstance(this, true);
     }
-
-
 
 }
 
