@@ -47,7 +47,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -166,6 +169,7 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
         String message = "";
         try {
             message = new String(data, "UTF-8");
+            Log.d("MSG", "MESSAGE RECEIVED: " + message);
         } catch (Exception e) {
             return false;
         }
